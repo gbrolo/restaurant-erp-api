@@ -1,5 +1,7 @@
 var express = require('express')
 var router = express.Router()
+var producer = require('../rabbit/producer');
+var myProducer = new producer('amqp://localhost')
 
 const db = require('../config/firebase')
 
@@ -19,7 +21,9 @@ router.post('/generate', (req, res, next) => {
                             prodDoc.data().stock - product.quantity : null
 
                 if (newStock != null) {
-                    db.collection('products').doc(product.id).update({ stock: newStock })
+                    db.collection('products').doc(product.id).update({ stock: newStock }).then(() => {
+                        myProducer.notify_stock_change(product.id, newStock)
+                    })
                 }
             }
         })
@@ -50,6 +54,7 @@ router.post('/generate', (req, res, next) => {
                 message: 'successfully created receipt',
                 receipt: receipt
             })
+            myProducer.notify_new_receipt(receipt)
         })
     }).catch(error => {
         res.json({
@@ -121,6 +126,7 @@ router.post('/delete', (req, res, next) => {
             status: 'success',
             message: `successfully deleted receipt ${receiptId}`            
         })
+        myProducer.notify_deleted_receipt(receiptId)
     }).catch(error => {
         res.json({
             code: 500,

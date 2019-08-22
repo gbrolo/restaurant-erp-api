@@ -83,24 +83,24 @@ router.post('/create', (req, res, next) => {
 })
 
 router.post('/update', (req, res, next) => {    
-    const user = req.body.user 
+    const user = JSON.parse(req.body.user) 
 
-    db.collection('users').doc(user.id).get().then(prodDoc => {
+    db.collection('users').doc(user.userId).get().then(prodDoc => {
         if (prodDoc.exists) {
-            db.collection('users').doc(user.id).update(user).then(() => {
+            db.collection('users').doc(user.userId).update(user).then(() => {
                 myProducer.notify_update_user(user)
             })
 
             res.json({
                 code: 200,
                 status: 'success',
-                message: `successfully updated user ${user.id}`
+                message: `successfully updated user ${user.userId}`
             })
         } else {
             res.json({
                 code: 500,
                 status: 'failure',
-                message: `[DOCUMENT DOES NOT EXIST]: user with id ${user.id} does not exist`,
+                message: `[DOCUMENT DOES NOT EXIST]: user with id ${user.userId} does not exist`,
                 error
             })
         }
@@ -139,7 +139,7 @@ router.get('/getall', (req, res, next) => {
 })
 
 router.get('/get', (req, res, next) => {    
-    const userId = req.body.id    
+    const userId = req.body.userId    
     db.collection('users').doc(userId).get().then(document => {
         if (document.exists) {
             res.json({

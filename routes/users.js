@@ -1,5 +1,7 @@
 var express = require('express')
 var router = express.Router()
+var producer = require('../rabbit/producer');
+var myProducer = new producer('amqp://localhost')
 
 const firebase = require('../config/firebaseInit')
 const db = require('../config/firebase')
@@ -59,7 +61,9 @@ router.post('/create', (req, res, next) => {
             userPermissions: userPermissions
         }
 
-        db.collection('users').doc(userToBeCreated.userId).set(userToBeCreated)
+        db.collection('users').doc(userToBeCreated.userId).set(userToBeCreated).then(() => {
+            myProducer.notify_new_user(userToBeCreated)
+        })
 
         res.json({
             code: 200,
@@ -83,7 +87,9 @@ router.post('/update', (req, res, next) => {
 
     db.collection('users').doc(user.id).get().then(prodDoc => {
         if (prodDoc.exists) {
-            db.collection('users').doc(user.id).update(user)
+            db.collection('users').doc(user.id).update(user).then(() => {
+                myProducer.notify_update_user(user)
+            })
 
             res.json({
                 code: 200,

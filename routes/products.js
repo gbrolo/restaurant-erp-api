@@ -1,5 +1,7 @@
 var express = require('express')
 var router = express.Router()
+var producer = require('../rabbit/producer');
+var myProducer = new producer('amqp://localhost')
 
 const db = require('../config/firebase')
 
@@ -16,6 +18,7 @@ router.post('/create', (req, res, next) => {
                 message: 'successfully created product',
                 productId: document.id
             })
+            myProducer.notify_product_created(product)
         })
     }).catch(error => {
         res.json({
@@ -87,6 +90,7 @@ router.post('/delete', (req, res, next) => {
             status: 'success',
             message: `successfully deleted product ${productId}`            
         })
+        myProducer.notify_product_deleted(productId)
     }).catch(error => {
         res.json({
             code: 500,

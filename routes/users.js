@@ -28,13 +28,38 @@ router.post('/login', (req, res) => {
             admin.auth().createSessionCookie(idToken, {expiresIn}).then((sessionCookie) => {                
                 const options = {maxAge: expiresIn, httpOnly: true, secure: true}
                 res.cookie('session', sessionCookie, options)
-                res.end(JSON.stringify({status: 'success'}))
+                res.end(JSON.stringify({status: 'success', sessionCookie, options}))
             }).catch(error => {                
                 res.status(401).send('UNAUTHORIZED REQUEST!')
             })
         })
     }).then(() => {
         return auth.signOut()
+    }).catch(error => {
+        res.json({
+            code: 500,
+            status: 'failure',
+            message: error,
+            error
+        })
+    })
+})
+
+router.post('/islogged', (req, res) => {
+    var sessionCookie = req.cookies.session || '';
+    admin.auth().verifySessionCookie(sessionCookie).then((decodedToken) => {        
+        res.json({
+            code: 200,
+            status: 'success',
+            message: 'user is logged in',        
+        })
+    }).catch(error => {
+        res.json({
+            code: 500,
+            status: 'failure',
+            message: 'user not logged',
+            error
+        })
     })
 })
 

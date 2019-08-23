@@ -15,6 +15,9 @@ admin.initializeApp({
     databaseURL: "https://restaurant-erp-uvg.firebaseio.com"
 })
 
+const { UsersProvider } = require('./users/UsersProvider')
+const usersProvider = new UsersProvider()
+
 router.post('/login', (req, res) => {
     auth.setPersistence(firebase.auth.Auth.Persistence.NONE)
 
@@ -110,85 +113,23 @@ router.post('/create', (req, res, next) => {
 router.post('/update', (req, res, next) => {    
     const user = JSON.parse(req.body.user) 
 
-    db.collection('users').doc(user.userId).get().then(prodDoc => {
-        if (prodDoc.exists) {
-            db.collection('users').doc(user.userId).update(user).then(() => {
-                myProducer.notify_update_user(user)
-            })
-
-            res.json({
-                code: 200,
-                status: 'success',
-                message: `successfully updated user ${user.userId}`
-            })
-        } else {
-            res.json({
-                code: 500,
-                status: 'failure',
-                message: `[DOCUMENT DOES NOT EXIST]: user with id ${user.userId} does not exist`,
-                error
-            })
-        }
-    }).catch(error => {
-        res.json({
-            code: 500,
-            status: 'failure',
-            message: 'could not update user',
-            error
-        })
+    usersProvider.update(user).then(json => {
+        res.json(json)
+        myProducer.notify_update_user(user)
+    }).catch(json => {
+        res.json(json)
     })
 
 })
 
-router.get('/getall', (req, res, next) => {    
-    let users = []
-    db.collection('users').get().then((querySnapshot) => {
-        querySnapshot.forEach((user) => {
-            users.push(user.data())
-        })
-        
-        res.json({
-            code: 200,
-            status: 'success',
-            message: 'successfully fetched all users',
-            users: JSON.stringify(users)
-        })
-    }).catch(error => {
-        res.json({
-            code: 500,
-            status: 'failure',
-            message: 'could not get users',
-            error
-        })
-    })
+router.get('/getall', (req, res, next) => {  
+    usersProvider.getAll().then(json => res.json(json)).catch(json => res.json(json))      
 })
 
 router.get('/get', (req, res, next) => {    
     const userId = req.body.userId    
-    db.collection('users').doc(userId).get().then(document => {
-        if (document.exists) {
-            res.json({
-                code: 200,
-                status: 'success',
-                message: `successfully fetched user ${userId}`,
-                user: JSON.stringify(document.data())
-            })
-        } else {
-            res.json({
-                code: 500,
-                status: 'failure',
-                message: 'user does not exist',
-                error: `[DOCUMENT DOES NOT EXIST]: user with id ${userId} does not exist`
-            })
-        }    
-    }).catch(error => {
-        res.json({
-            code: 500,
-            status: 'failure',
-            message: 'could not get user',
-            error
-        })
-    })
+
+    usersProvider.get(userId).then(json => res.json(json)).catch(json => res.json(json))    
 })
 
 module.exports = router;

@@ -30,6 +30,38 @@ router.post('/create', (req, res, next) => {
     })
 
 })
+router.post('/update', (req, res, next) => {    
+    const user = JSON.parse(req.body.product) 
+    console.log(user)
+    db.collection('products').doc(user.id).get().then(prodDoc => {
+        if (prodDoc.exists) {
+            db.collection('products').doc(user.id).update(user).then(() => {
+                //myProducer.notify_product_created(user)
+            })
+
+            res.json({
+                code: 200,
+                status: 'success',
+                message: `successfully updated product ${user.id}`
+            })
+        } else {
+            res.json({
+                code: 500,
+                status: 'failure',
+                message: `[DOCUMENT DOES NOT EXIST]: user with id ${user.id} does not exist`,
+                error
+            })
+        }
+    }).catch(error => {
+        res.json({
+            code: 500,
+            status: 'failure',
+            message: 'could not update product',
+            error
+        })
+    })
+
+})
 
 router.get('/getall', (req, res, next) => {
     let products = []

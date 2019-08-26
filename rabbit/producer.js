@@ -16,6 +16,21 @@ module.exports = function(path) {
         })
     }
 
+    this.notify_product_updated = function(product) {
+        amqp.connect(path, (err, conn) => {
+            conn.createChannel((err, ch) => {
+                if (err) {
+                    throw err
+                }
+
+                var queue = "updated_product_queue"
+                ch.assertQueue(queue)
+                ch.sendToQueue(queue, Buffer.from(JSON.stringify(product)))
+                console.log(`Message sent: ${product}`)
+            })
+        })
+    }
+
     this.notify_product_deleted = function(productId) {
         amqp.connect(path, (err, conn) => {
             conn.createChannel((err, ch) => {

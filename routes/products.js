@@ -23,6 +23,7 @@ router.post('/update', (req, res, next) => {
 
     productsProvider.update(product).then(json => {
         res.json(json)
+        myProducer.notify_product_updated(product)
     }).catch(json => {
         res.json(json)
     })

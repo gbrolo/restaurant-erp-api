@@ -13,7 +13,7 @@ El ERP actúa tanto como productor como consumidor. El archivo /rabbit/producer.
 * Nombre de la cola: new_product_queue
 * Ejemplo de mensaje: ```{"date":"2019-08-20","description":"De chipilín","name":"Tamalito","price":5,"stock":45}```
 
-#### Nuevo actualizado
+#### Producto actualizado
 
 * Nombre de la cola: updated_product_queue
 * Ejemplo de mensaje: ```{"date":"2019-08-20","description":"De chipilín","name":"Tamalito","price":5,"stock":45}```

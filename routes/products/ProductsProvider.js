@@ -31,15 +31,15 @@ class ProductsProvider {
         })
     }
 
-    update(user) {
+    update(product) {
         return new Promise((resolve, reject) => {
-            this.db.collection('products').doc(user.id).get().then(prodDoc => {
+            this.db.collection('products').doc(product.id).get().then(prodDoc => {
                 if (prodDoc.exists) {
-                    db.collection('products').doc(user.id).update(user).then(() => {
+                    db.collection('products').doc(product.id).update(product).then(() => {
                         const json = {
                             code: 200,
                             status: 'success',
-                            message: `successfully updated product ${user.id}`
+                            message: `successfully updated product ${product.id}`
                         }
                         resolve(json)
                     })
@@ -47,7 +47,7 @@ class ProductsProvider {
                     const json = {
                         code: 500,
                         status: 'failure',
-                        message: `[DOCUMENT DOES NOT EXIST]: user with id ${user.id} does not exist`,
+                        message: `[DOCUMENT DOES NOT EXIST]: user with id ${product.id} does not exist`,
                         error
                     }
                     reject(json)

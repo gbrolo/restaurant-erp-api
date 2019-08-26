@@ -18,10 +18,10 @@ router.post('/create', (req, res, next) => {
 
 })
 router.post('/update', (req, res, next) => {    
-    const user = JSON.parse(req.body.product) 
-    console.log(user)
+    const product = JSON.parse(req.body.product) 
+    console.log(product)
 
-    productsProvider.update(user).then(json => {
+    productsProvider.update(product).then(json => {
         res.json(json)
     }).catch(json => {
         res.json(json)

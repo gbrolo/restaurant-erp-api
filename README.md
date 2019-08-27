@@ -36,6 +36,11 @@ El ERP actúa tanto como productor como consumidor. El archivo /rabbit/producer.
 * Ejemplo de mensaje: ```{"address":"Ciudad","date_created":1566430918,id:"facturaId","name":"Jon Snow","nit":"319823-6","products":[{id:"productId","name":"Refresco Jamaica","price":"8.25","quantity":1},{{id:"productId","name":"Nachos","price":"5.75","quantity":2}
 ]}```
 
+#### No se pudo generar factura, no alcanzan los ingredientes en existencia
+
+* Nombre de la cola: out_of_stock_queue
+* Ejemplo de mensaje: ```{"productId":"JGyMjYUoi1ierSYpbZLx","ingredientMissing":"Pan"}```
+
 #### Factura eliminada
 
 * Nombre de la cola: deleted_receipt_queue

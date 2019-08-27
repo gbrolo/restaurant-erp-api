@@ -62,6 +62,21 @@ module.exports = function(path) {
         })
     }
 
+    this.notify_out_of_stock = function(productId, ingredientName) {
+        amqp.connect(path, (err, conn) => {
+            conn.createChannel((err, ch) => {
+                if (err) {
+                    throw err
+                }
+                var message = { productId: productId, ingredientMissing: ingredientName }
+                var queue = "out_of_stock_queue"
+                ch.assertQueue(queue)
+                ch.sendToQueue(queue, Buffer.from(JSON.stringify(message)))
+                console.log(`Message sent: ${message}`)
+            })
+        })
+    }
+
     this.notify_new_receipt = function(receipt) {
         amqp.connect(path, (err, conn) => {
             conn.createChannel((err, ch) => {

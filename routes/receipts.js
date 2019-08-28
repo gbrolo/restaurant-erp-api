@@ -59,7 +59,7 @@ router.post('/generate', (req, res) => {
                                         message: 'could not create receipt',
                                         error: errorIs
                                     })
-                                    myProducer.notify_out_of_stock(product.id, prodDoc().data().name)
+                                    myProducer.notify_out_of_stock(product.id, prodDoc.data().name)
                                 }                            
                             } else {                            
                                 errorIs = 'Product does not exist'

@@ -1,17 +1,21 @@
 var amqp = require('amqplib/callback_api');
 
 module.exports = function(path) {
-    this.notify_product_created = function(product) {
+    this.notify_product_created = function(product, productId) {
         amqp.connect(path, (err, conn) => {
             conn.createChannel((err, ch) => {
                 if (err) {
                     throw err
                 }
-
+                var message = { 
+                    id: productId,
+                    name: product.name,
+                    retailPrice: product.retailPrice
+                }
                 var queue = "new_product_queue"
                 ch.assertQueue(queue)
-                ch.sendToQueue(queue, Buffer.from(JSON.stringify(product)))
-                console.log(`Message sent: ${product}`)
+                ch.sendToQueue(queue, Buffer.from(JSON.stringify(message)))
+                console.log(`Message sent: ${message}`)
             })
         })
     }

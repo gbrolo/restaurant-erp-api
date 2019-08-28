@@ -11,7 +11,7 @@ router.post('/create', (req, res, next) => {
     
     productsProvider.create(product).then(json => {
         res.json(json)
-        myProducer.notify_product_created(product)
+        myProducer.notify_product_created(product, json.orderProductId)
     }).catch(json => {
         res.json(json)
     })

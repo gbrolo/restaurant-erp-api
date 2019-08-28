@@ -11,7 +11,6 @@ router.post('/create', (req, res, next) => {
     
     productsProvider.create(product).then(json => {
         res.json(json)
-        myProducer.notify_product_created(product)
     }).catch(json => {
         res.json(json)
     })
@@ -23,7 +22,6 @@ router.post('/update', (req, res, next) => {
 
     productsProvider.update(product).then(json => {
         res.json(json)
-        myProducer.notify_product_updated(product)
     }).catch(json => {
         res.json(json)
     })
@@ -57,7 +55,6 @@ router.post('/delete', (req, res, next) => {
 
     productsProvider.delete(productId).then(json => {
         res.json(json)
-        myProducer.notify_product_deleted(productId)
     }).catch(json => {
         res.json(json)
     })

@@ -28,6 +28,12 @@ El ERP actúa tanto como productor como consumidor. El archivo /rabbit/producer.
 * Nombre de la cola: update_stock_queue
 * Ejemplo de mensaje: ```{"id":"productId","stock":11}```
 
+#### Sí hay existencia de un producto que fue consultado
+
+* Nombre de la cola: on_stock_queue
+* Ejemplo de mensaje: ```{"productId":"JGyMjYUoi1ierSYpbZLx"}```
+
+
 ### Mensajes relacionados con facturación
 
 #### Nueva factura generada

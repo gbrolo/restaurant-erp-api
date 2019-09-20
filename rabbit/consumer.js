@@ -12,7 +12,9 @@ module.exports = function(path) {
                 if (err) {
                     throw err
                 }
-    
+                
+                ch.assertQueue('ordenes')
+
                 ch.consume('ordenes', function(message) {
                     console.log(`message received: ${message.content.toString()}`)
                     var name = JSON.parse(message.content.toString()).item

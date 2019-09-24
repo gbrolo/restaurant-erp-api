@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "jest --testTimeout=10000 --forceExit --detectOpenHandles",
+    "test": "jest --testTimeout=10000 --forceExit --detectOpenHandles --testPathPattern=./tests/.*.test.js$",
+    "integration": "jest --testTimeout=10000 --forceExit --detectOpenHandles --testPathPattern=./integration/.*.test.js$",
     "start:production": "npm test && npm start"
   },
   "jest": {
@@ -15,7 +16,7 @@
   },
   "dependencies": {
     "amqplib": "^0.5.5",
-    "body-parser": "~1.18.2",
+    "body-parser": "~1.18.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.15.5",

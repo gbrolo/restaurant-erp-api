@@ -1,7 +1,7 @@
 var amqp = require('amqplib/callback_api');
 
 module.exports = function(path) {
-    this.notify_product_created = function(product, productId) {
+    this.notify_product_created = async function(product, productId) {
         amqp.connect(path, (err, conn) => {
             conn.createChannel((err, ch) => {
                 if (err) {
@@ -20,7 +20,7 @@ module.exports = function(path) {
         })
     }
 
-    this.notify_product_updated = function(product) {
+    this.notify_product_updated = async function(product) {
         amqp.connect(path, (err, conn) => {
             conn.createChannel((err, ch) => {
                 if (err) {
@@ -35,7 +35,7 @@ module.exports = function(path) {
         })
     }
 
-    this.notify_product_deleted = function(productId) {
+    this.notify_product_deleted = async function(productId) {
         amqp.connect(path, (err, conn) => {
             conn.createChannel((err, ch) => {
                 if (err) {
@@ -50,7 +50,7 @@ module.exports = function(path) {
         })
     }
 
-    this.notify_stock_change = function(productId, newStock) {
+    this.notify_stock_change = async function(productId, newStock) {
         amqp.connect(path, (err, conn) => {
             conn.createChannel((err, ch) => {
                 if (err) {
@@ -66,7 +66,7 @@ module.exports = function(path) {
         })
     }
 
-    this.notify_out_of_stock = function(productId, ingredientName) {
+    this.notify_out_of_stock = async function(productId, ingredientName) {
         amqp.connect(path, (err, conn) => {
             conn.createChannel((err, ch) => {
                 if (err) {
@@ -81,7 +81,7 @@ module.exports = function(path) {
         })
     }
 
-    this.notify_on_stock = function(productId) {
+    this.notify_on_stock = async function(productId) {
         amqp.connect(path, (err, conn) => {
             conn.createChannel((err, ch) => {
                 if (err) {
@@ -96,7 +96,7 @@ module.exports = function(path) {
         })
     }
 
-    this.notify_new_receipt = function(receipt) {
+    this.notify_new_receipt = async function(receipt) {
         amqp.connect(path, (err, conn) => {
             conn.createChannel((err, ch) => {
                 if (err) {
@@ -110,7 +110,7 @@ module.exports = function(path) {
         })
     }
 
-    this.notify_deleted_receipt = function(receiptId) {
+    this.notify_deleted_receipt = async function(receiptId) {
         amqp.connect(path, (err, conn) => {
             conn.createChannel((err, ch) => {
                 if (err) {
@@ -125,7 +125,7 @@ module.exports = function(path) {
         })
     }
 
-    this.notify_new_user = function(user) {
+    this.notify_new_user = async function(user) {
         amqp.connect(path, (err, conn) => {
             conn.createChannel((err, ch) => {
                 if (err) {
@@ -139,7 +139,7 @@ module.exports = function(path) {
         })
     }
 
-    this.notify_update_user = function(user) {
+    this.notify_update_user = async function(user) {
         amqp.connect(path, (err, conn) => {
             conn.createChannel((err, ch) => {
                 if (err) {

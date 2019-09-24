@@ -6,6 +6,10 @@ var myProducer = new producer('amqp://localhost')
 module.exports = function(path) {
     this.listenForMessages = async function() {
         amqp.connect(path, (err, conn) => {
+            if (err) {
+                console.log("RabbitMq service is offline")
+                return
+            }
             console.log('listening to new messages...')
             conn.createChannel((err, ch) => {
                 console.log('created channel')

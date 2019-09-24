@@ -3,6 +3,10 @@ var amqp = require('amqplib/callback_api');
 module.exports = function(path) {
     this.notify_product_created = async function(product, productId) {
         amqp.connect(path, (err, conn) => {
+            if (err) {
+                console.log("RabbitMq service is offline")
+                return
+            }
             conn.createChannel((err, ch) => {
                 if (err) {
                     throw err
@@ -22,6 +26,10 @@ module.exports = function(path) {
 
     this.notify_product_updated = async function(product) {
         amqp.connect(path, (err, conn) => {
+            if (err) {
+                console.log("RabbitMq service is offline")
+                return
+            }
             conn.createChannel((err, ch) => {
                 if (err) {
                     throw err
@@ -37,6 +45,10 @@ module.exports = function(path) {
 
     this.notify_product_deleted = async function(productId) {
         amqp.connect(path, (err, conn) => {
+            if (err) {
+                console.log("RabbitMq service is offline")
+                return
+            }
             conn.createChannel((err, ch) => {
                 if (err) {
                     throw err
@@ -52,6 +64,10 @@ module.exports = function(path) {
 
     this.notify_stock_change = async function(productId, newStock) {
         amqp.connect(path, (err, conn) => {
+            if (err) {
+                console.log("RabbitMq service is offline")
+                return
+            }
             conn.createChannel((err, ch) => {
                 if (err) {
                     throw err
@@ -68,6 +84,10 @@ module.exports = function(path) {
 
     this.notify_out_of_stock = async function(productId, ingredientName) {
         amqp.connect(path, (err, conn) => {
+            if (err) {
+                console.log("RabbitMq service is offline")
+                return
+            }
             conn.createChannel((err, ch) => {
                 if (err) {
                     throw err
@@ -83,6 +103,10 @@ module.exports = function(path) {
 
     this.notify_on_stock = async function(productId) {
         amqp.connect(path, (err, conn) => {
+            if (err) {
+                console.log("RabbitMq service is offline")
+                return
+            }
             conn.createChannel((err, ch) => {
                 if (err) {
                     throw err
@@ -98,6 +122,10 @@ module.exports = function(path) {
 
     this.notify_new_receipt = async function(receipt) {
         amqp.connect(path, (err, conn) => {
+            if (err) {
+                console.log("RabbitMq service is offline")
+                return
+            }
             conn.createChannel((err, ch) => {
                 if (err) {
                     throw err
@@ -112,6 +140,10 @@ module.exports = function(path) {
 
     this.notify_deleted_receipt = async function(receiptId) {
         amqp.connect(path, (err, conn) => {
+            if (err) {
+                console.log("RabbitMq service is offline")
+                return
+            }
             conn.createChannel((err, ch) => {
                 if (err) {
                     throw err
@@ -127,6 +159,10 @@ module.exports = function(path) {
 
     this.notify_new_user = async function(user) {
         amqp.connect(path, (err, conn) => {
+            if (err) {
+                console.log("RabbitMq service is offline")
+                return
+            }
             conn.createChannel((err, ch) => {
                 if (err) {
                     throw err
@@ -141,6 +177,10 @@ module.exports = function(path) {
 
     this.notify_update_user = async function(user) {
         amqp.connect(path, (err, conn) => {
+            if (err) {
+                console.log("RabbitMq service is offline")
+                return
+            }
             conn.createChannel((err, ch) => {
                 if (err) {
                     throw err

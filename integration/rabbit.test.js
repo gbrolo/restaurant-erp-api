@@ -9,6 +9,10 @@ describe('deleted products', function() {
     })
     it('should have pushed deleted product message to queue', async function() {
         amqp.connect('amqp://localhost', (err, conn) => {
+            if (err) {
+                console.error('Connection to rabbit was not available')
+                throw err
+            }
             console.log('listening to new messages...')
             conn.createChannel((err, ch) => {
                 console.log('created channel')
